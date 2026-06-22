@@ -15,10 +15,17 @@ namespace PresentationLayer.Forms {
 
             PeopleDataGridView.Columns["Gender"].Visible = false;
             PeopleDataGridView.Columns["GenderText"].HeaderText = "Gender";
+
+            RecordsLabel.Text = $"Records: {PeopleDataGridView.Rows.Count}";
         }
 
         private void CloseButton_Click(object sender, EventArgs e) {
             this.Close();
+        }
+
+        private void AddPersonButton_Click(object sender, EventArgs e) {
+            AddUpdatePersonForm addPersonForm = new AddUpdatePersonForm(-1);
+            addPersonForm.ShowDialog();
         }
     }
 }
