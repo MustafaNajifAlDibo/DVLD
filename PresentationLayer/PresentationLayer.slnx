@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="PresentationLayer.csproj" />
+  <Project Path="../BusinessLayer/BusinessLayer.csproj" Id="eec854ae-a7be-4f6e-9e04-81feef01bf10" />
+  <Project Path="../DataLayer/DataLayer.csproj" Id="47fc9fe2-f3ad-48e1-9e16-7256449145e8" />
+  <Project Path="../ModelLayer/ModelLayer.csproj" Id="e5a7386d-c924-4048-b584-833754cdff36" />
+  <Project Path="PresentationLayer.csproj" Id="fcc182ee-4fe8-4087-bca6-fa908bfcef12" />
 </Solution>
