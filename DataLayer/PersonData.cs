@@ -165,7 +165,9 @@ namespace DataLayer {
             }
         }
 
-        public static async Task UpdatePersonAsync(PersonDTO personDTO) {
+        public static async Task<bool> UpdatePersonAsync(PersonDTO personDTO) {
+            int rowsAffected = 0;
+
             using (SqlConnection connection =
             new SqlConnection(DataAccessSettings.ConnectionString)) {
                 const string query = @"
@@ -182,7 +184,7 @@ namespace DataLayer {
                     command.Parameters.AddWithValue("@ThirdName", personDTO.ThirdName);
                     command.Parameters.AddWithValue("@LastName", personDTO.LastName);
                     command.Parameters.AddWithValue("@DateOfBirth", personDTO.DateOfBirth);
-                    command.Parameters.AddWithValue("@Gendor",, personDTO.Gender);
+                    command.Parameters.AddWithValue("@Gendor", personDTO.Gender);
                     command.Parameters.AddWithValue("@Address", string.IsNullOrEmpty(personDTO.Address)
                         ? (object)DBNull.Value : personDTO.Address);
                     command.Parameters.AddWithValue("@NationalNo", personDTO.NationalNo);
@@ -193,11 +195,17 @@ namespace DataLayer {
                     command.Parameters.AddWithValue("@NationalityCountryID", personDTO.NationalityCountryId);
                     command.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(personDTO.ImagePath)
                         ? (object)DBNull.Value : personDTO.ImagePath);
+
+                    connection.Open();
+                    rowsAffected = await command.ExecuteNonQueryAsync();
                 }
             }
+            return rowsAffected > 0;
         }
 
-        public static async Task DeletePersonAsync(int personID) {
+        public static async Task<bool> DeletePersonAsync(int personID) {
+            int rowsAffected = 0;
+
             using (SqlConnection connection =
             new SqlConnection(DataAccessSettings.ConnectionString)) {
                 const string query = @"DELETE FROM People WHERE PersonID = @PersonID";
@@ -208,6 +216,7 @@ namespace DataLayer {
                     await command.ExecuteNonQueryAsync();
                 }
             }
+            return (rowsAffected > 0);
         }
 
         public static async Task<bool> IsPersonExsitAsync(int personID) {

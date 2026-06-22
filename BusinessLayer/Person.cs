@@ -40,5 +40,39 @@ namespace BusinessLayer {
         public static Task<List<PersonDTO>> GetAllPeopleAsync() {
             return PersonData.GetAllPeopleAync();
         }
+
+        public static async Task<PersonDTO> FindAsync(int personId) {
+            return await PersonData.GetPersonByIDAsync(personId);
+        }
+
+        public async Task<bool> SaveAsync() {
+            if (Mode == enMode.AddNew) {
+                if (await _AddNewPerson()) {
+                    Mode = enMode.Update;
+                    return true;
+
+                } else 
+                    return false;
+            } else {
+                    return await _UpdatePerson();
+            }
+        }
+
+        public static async Task<bool> DeleteAsync(int personId) {
+            return await PersonData.DeletePersonAsync(personId);
+        }
+
+        public static async Task<bool> IsPersonExsitAsync(int personId) {
+            return await PersonData.IsPersonExsitAsync(personId);
+        }
+
+        private async Task<bool> _AddNewPerson() {
+            this._personDTO.PersonId = await PersonData.AddNewPersonAsync(_personDTO);
+            return this._personDTO.PersonId != -1;
+        }
+
+        private async Task<bool> _UpdatePerson() {
+            return await PersonData.UpdatePersonAsync(_personDTO);
+        }
     }
 }
