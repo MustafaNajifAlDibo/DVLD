@@ -44,14 +44,16 @@ namespace PresentationLayer.UCs {
             NationalNoTextBox.Text = personDto.NationalNo;
             DateOfBirthDateTimePicker.Value = personDto.DateOfBirth;
             PhoneTextBox.Text = personDto.Phone;
+            EmailTextBox.Text = personDto.Email;
             AddressTextBox.Text = personDto.Address;
-            if(personDto.Gender == 0) {
+            if (personDto.Gender == 0) {
                 MaleRadioButton.Checked = true;
             } else {
                 FemaleRadioButton.Checked = true;
             }
 
-            CountryComboBox.SelectedIndex = personDto.NationalityCountryId - 1;
+            CountryComboBox.DataSource = await GetCountriesNameListAsync();
+            CountryComboBox.SelectedIndex = personDto.NationalityCountryId -1;
         }
 
         private async Task<List<string>> GetCountriesNameListAsync() {
@@ -61,6 +63,16 @@ namespace PresentationLayer.UCs {
                 countryNames.Add(country.CountryName);
             }
             return countryNames;
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e) {
+            if (MessageBox.Show(
+                "Any unsaved changes will be lost. Do you want to close this window?",
+                    "Confirm Close",MessageBoxButtons.YesNo,MessageBoxIcon.Warning) 
+                == DialogResult.Yes) {
+
+                ParentForm?.Close();
+            }
         }
     }
 }

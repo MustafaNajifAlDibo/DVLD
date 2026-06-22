@@ -10,15 +10,15 @@ namespace PresentationLayer.Forms {
             InitializeComponent();
 
             if(personID == -1) {
-                SetAddNewPersonMode();
+                _= SetAddNewPersonMode();
             } else {
                 _= SetUpdatePersonMode(personID);
             }
         }
 
-        private void SetAddNewPersonMode() {
+        private async Task SetAddNewPersonMode() {
             PersonID = -1;
-            addUpdateUC1.SetAddNewPersonMode();
+            await addUpdateUC1.SetAddNewPersonMode();
             this.Text = "Add New Person";
         }
         private async Task SetUpdatePersonMode(int personID) {
