@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using BusinessLayer;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PresentationLayer.Forms {
@@ -10,19 +11,19 @@ namespace PresentationLayer.Forms {
             InitializeComponent();
 
             if(personID == -1) {
-                _= SetAddNewPersonMode();
+                _= SetAddNewPersonMode(personID);
             } else {
                 _= SetUpdatePersonMode(personID);
             }
         }
 
-        private async Task SetAddNewPersonMode() {
-            PersonID = -1;
-            await addUpdateUC1.SetAddNewPersonMode();
+        private async Task SetAddNewPersonMode(int personID) {
+
+            await addUpdateUC1.SetAddNewPersonMode(personID);
             this.Text = "Add New Person";
         }
         private async Task SetUpdatePersonMode(int personID) {
-            PersonID = personID;
+
             await addUpdateUC1.SetUpdatePersonMode(personID);
             this.Text = "Update Person";
         }

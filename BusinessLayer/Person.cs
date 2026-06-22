@@ -10,10 +10,10 @@ namespace BusinessLayer {
         public enum enMode { AddNew = 0, Update = 1 };
         public enMode Mode = enMode.AddNew;
 
-        PersonDTO _personDTO;
+        public PersonDTO PersonDTO { get; set; }
 
         public Person(){
-            _personDTO = new PersonDTO {
+                PersonDTO = new PersonDTO {
                 PersonId = -1,
                 FirstName = string.Empty,
                 SecondName = string.Empty,
@@ -32,7 +32,7 @@ namespace BusinessLayer {
         }
 
         public Person(PersonDTO personDTO) {
-            _personDTO = personDTO;
+            PersonDTO = personDTO;
 
             Mode = enMode.Update;
         }
@@ -67,12 +67,12 @@ namespace BusinessLayer {
         }
 
         private async Task<bool> _AddNewPerson() {
-            this._personDTO.PersonId = await PersonData.AddNewPersonAsync(_personDTO);
-            return this._personDTO.PersonId != -1;
+            this.PersonDTO.PersonId = await PersonData.AddNewPersonAsync(PersonDTO);
+            return this.PersonDTO.PersonId != -1;
         }
 
         private async Task<bool> _UpdatePerson() {
-            return await PersonData.UpdatePersonAsync(_personDTO);
+            return await PersonData.UpdatePersonAsync(PersonDTO);
         }
     }
 }

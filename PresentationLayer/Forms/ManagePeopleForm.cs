@@ -42,6 +42,7 @@ namespace PresentationLayer.Forms {
             RetrieveAllPeopleInDatatGridView();
         }
 
+        // This is a simple way to select a row when hovering over it with the mouse.
         private int _hoverRow = -1;
         private void PeopleDataGridView_MouseMove(object sender, MouseEventArgs e) {
             var hit = PeopleDataGridView.HitTest(e.X, e.Y);

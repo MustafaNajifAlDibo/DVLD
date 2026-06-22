@@ -9,12 +9,13 @@ namespace PresentationLayer.UCs {
     public partial class AddUpdateUC : UserControl {
 
         private int defultCountryIndex = 89; // Jordan is the default country
-
+        private int _personID = -1;
         public AddUpdateUC() {
             InitializeComponent();
         }
 
-        public async Task SetAddNewPersonMode() {
+        public async Task SetAddNewPersonMode(int personID) {
+            _personID = personID;
             AddUpdatLabel.Text = "Add New Person";
             PersonIDLabel.Text = "N/A";
 
@@ -32,6 +33,7 @@ namespace PresentationLayer.UCs {
             FemaleRadioButton.Checked = false;
         }
         public async Task SetUpdatePersonMode(int personID) {
+            _personID = personID;
             AddUpdatLabel.Text = "Update Person";
             PersonIDLabel.Text = personID.ToString();
 
@@ -73,6 +75,35 @@ namespace PresentationLayer.UCs {
 
                 ParentForm?.Close();
             }
+        }
+
+        private async void SaveButton_Click(object sender, EventArgs e) {
+            Person person = new Person {
+                PersonDTO = new PersonDTO {
+                    PersonId = _personID,
+                    FirstName = FirstNameTextBox.Text,
+                    SecondName = SecondNameTextBox.Text,
+                    ThirdName = ThirdNameTextBox.Text,
+                    LastName = LastNameTextBox.Text,
+                    DateOfBirth = DateOfBirthDateTimePicker.Value,
+                    Gender = MaleRadioButton.Checked ? 0 : 1,
+                    Address = AddressTextBox.Text,
+                    NationalNo = NationalNoTextBox.Text,
+                    Phone = PhoneTextBox.Text,
+                    Email = EmailTextBox.Text,
+                    NationalityCountryId = CountryComboBox.SelectedIndex + 1,
+                    ImagePath = string.Empty
+                }
+            };
+            if (_personID == -1) {
+                person.Mode = Person.enMode.AddNew;
+            } else {
+                person.Mode = Person.enMode.Update;
+            }
+
+            await person.SaveAsync();
+
+            ParentForm?.Close();
         }
     }
 }

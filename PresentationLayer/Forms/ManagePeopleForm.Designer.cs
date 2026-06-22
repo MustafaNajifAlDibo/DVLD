@@ -40,7 +40,6 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.AddPersonButton = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
-            this.IndexLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PeopleDataGridView)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -187,22 +186,11 @@
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
-            // IndexLabel
-            // 
-            this.IndexLabel.AutoSize = true;
-            this.IndexLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.IndexLabel.Location = new System.Drawing.Point(576, 373);
-            this.IndexLabel.Name = "IndexLabel";
-            this.IndexLabel.Size = new System.Drawing.Size(96, 20);
-            this.IndexLabel.TabIndex = 7;
-            this.IndexLabel.Text = "# Records:";
-            // 
             // ManagePeopleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1374, 416);
-            this.Controls.Add(this.IndexLabel);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.AddPersonButton);
             this.Controls.Add(this.comboBox1);
@@ -239,6 +227,5 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem sendEmailToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem phoneCallToolStripMenuItem;
-        private System.Windows.Forms.Label IndexLabel;
     }
 }
