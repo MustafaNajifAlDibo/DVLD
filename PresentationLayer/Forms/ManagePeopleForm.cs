@@ -26,6 +26,7 @@ namespace PresentationLayer.Forms {
         private void AddPersonButton_Click(object sender, EventArgs e) {
             AddUpdatePersonForm addPersonForm = new AddUpdatePersonForm(-1);
             addPersonForm.ShowDialog();
+            RetrieveAllPeopleInDatatGridView();
         }
     }
 }
