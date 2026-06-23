@@ -213,7 +213,7 @@ namespace DataLayer {
                     new SqlCommand(query, connection)) {
                     command.Parameters.AddWithValue("@PersonID", personID);
                     connection.Open();
-                    await command.ExecuteNonQueryAsync();
+                    rowsAffected = await command.ExecuteNonQueryAsync();
                 }
             }
             return (rowsAffected > 0);

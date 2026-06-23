@@ -1,6 +1,6 @@
 ﻿using BusinessLayer;
 using System;
-using System.Drawing;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace PresentationLayer.Forms {
@@ -56,6 +56,25 @@ namespace PresentationLayer.Forms {
             PeopleDataGridView.Rows[_hoverRow].Selected = true;
             PeopleDataGridView.CurrentCell =
                 PeopleDataGridView.Rows[_hoverRow].Cells[0];
+        }
+
+        private async void DeleteToolStripMenuItem_Click(object sender, EventArgs e) {
+            int personID = (int)PeopleDataGridView.CurrentRow.Cells["PersonId"].Value;
+            try {
+                if (await Person.DeleteAsync(personID)) {
+                    MessageBox.Show("Person deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RetrieveAllPeopleInDatatGridView();
+
+                } else {
+                    MessageBox.Show("Failed to delete person.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            } catch (SqlException) {
+                MessageBox.Show(
+                    "This person cannot be deleted because related records exist.",
+                    "Delete Failed",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
         }
     }
 }

@@ -19,11 +19,11 @@ namespace DataLayer.InputValidation {
                 .WithMessage("LastName is required.");
 
             RuleFor(x => x.NationalNo)
-    .NotEmpty()
-    .WithMessage("National Number is required.")
-    .Must((person, nationalNo) =>
-        !ExistsNationalNo(nationalNo, person.PersonId))
-    .WithMessage("National Number already exists.");
+                .NotEmpty()
+                .WithMessage("National Number is required.")
+                .Must((person, nationalNo) =>
+                    !ExistsNationalNo(nationalNo, person.PersonId))
+                .WithMessage("National Number already exists.");
 
             RuleFor(x => x.Phone)
                 .NotEmpty()
@@ -31,7 +31,10 @@ namespace DataLayer.InputValidation {
 
             RuleFor(x => x.Email)
                 .EmailAddress()
-                .When(x => !string.IsNullOrWhiteSpace(x.Email));
+                .When(x => !string.IsNullOrWhiteSpace(x.Email))
+                .Must((person, email) =>
+                    !ExistsEmail(email, person.PersonId))
+                .WithMessage("Email already exists.");
 
             RuleFor(x => x.DateOfBirth)
                 .LessThanOrEqualTo(DateTime.Today.AddYears(-18))
@@ -57,6 +60,28 @@ namespace DataLayer.InputValidation {
             using (SqlConnection connection = new SqlConnection(DataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection)) {
                 command.Parameters.AddWithValue("@NationalNo", nationalNo);
+                command.Parameters.AddWithValue("@PersonID", personId);
+
+                connection.Open();
+
+                exists = command.ExecuteScalar() != null;
+            }
+
+            return exists;
+        }
+
+        public static bool ExistsEmail(string email, int personId) {
+            bool exists = false;
+
+            string query = @"
+        SELECT 1
+        FROM People
+        WHERE Email = @Email
+          AND PersonID <> @PersonID";
+
+            using (SqlConnection connection = new SqlConnection(DataAccessSettings.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query, connection)) {
+                command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@PersonID", personId);
 
                 connection.Open();

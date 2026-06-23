@@ -115,7 +115,12 @@ namespace PresentationLayer.UCs {
                 person.Mode = Person.enMode.Update;
             }
 
-            await person.SaveAsync();
+            if (await person.SaveAsync()) {
+                MessageBox.Show("Person saved successfully.");
+
+            } else {
+                MessageBox.Show("Failed to save person.");
+            }
 
             ParentForm?.Close();
         }
