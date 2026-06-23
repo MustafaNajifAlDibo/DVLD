@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FluentValidation.Results;
+using DataLayer.InputValidation;
 
 namespace PresentationLayer.UCs {
     public partial class AddUpdateUC : UserControl {
@@ -95,6 +97,18 @@ namespace PresentationLayer.UCs {
                     ImagePath = string.Empty
                 }
             };
+
+            var validator = new PersonDTOValidator();
+
+            ValidationResult result = validator.Validate(person.PersonDTO);
+
+            if (!result.IsValid) {
+                // عرض الأخطاء
+
+                MessageBox.Show($"{result.Errors[0].ErrorMessage}");
+                return;
+            }
+
             if (_personID == -1) {
                 person.Mode = Person.enMode.AddNew;
             } else {
