@@ -11,6 +11,7 @@ namespace PresentationLayer.UCs {
     public partial class AddUpdateUC : UserControl {
 
         private int defultCountryIndex = 89; // Jordan is the default country
+        private string _selectedImagePath = string.Empty;
         private int _personID = -1;
         public AddUpdateUC() {
             InitializeComponent();
@@ -57,7 +58,9 @@ namespace PresentationLayer.UCs {
             }
 
             CountryComboBox.DataSource = await GetCountriesNameListAsync();
-            CountryComboBox.SelectedIndex = personDto.NationalityCountryId -1;
+            CountryComboBox.SelectedIndex = personDto.NationalityCountryId - 1;
+            _selectedImagePath = personDto.ImagePath;
+            ProfileImagePictureBox.ImageLocation = _selectedImagePath;
         }
 
         private async Task<List<string>> GetCountriesNameListAsync() {
@@ -72,7 +75,7 @@ namespace PresentationLayer.UCs {
         private void CloseButton_Click(object sender, EventArgs e) {
             if (MessageBox.Show(
                 "Any unsaved changes will be lost. Do you want to close this window?",
-                    "Confirm Close",MessageBoxButtons.YesNo,MessageBoxIcon.Warning) 
+                    "Confirm Close", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
                 == DialogResult.Yes) {
 
                 ParentForm?.Close();
@@ -80,6 +83,15 @@ namespace PresentationLayer.UCs {
         }
 
         private async void SaveButton_Click(object sender, EventArgs e) {
+
+            if (ProfileImagePictureBox.ImageLocation == string.Empty) {
+                ProfileImageManager.DeleteImage(_selectedImagePath);
+                _selectedImagePath = string.Empty;
+            } else {
+                _selectedImagePath = ProfileImageManager.ReplaceImage(
+                    _selectedImagePath, ProfileImagePictureBox.ImageLocation);
+            }
+
             Person person = new Person {
                 PersonDTO = new PersonDTO {
                     PersonId = _personID,
@@ -94,7 +106,7 @@ namespace PresentationLayer.UCs {
                     Phone = PhoneTextBox.Text,
                     Email = EmailTextBox.Text,
                     NationalityCountryId = CountryComboBox.SelectedIndex + 1,
-                    ImagePath = string.Empty
+                    ImagePath = _selectedImagePath
                 }
             };
 
@@ -123,6 +135,25 @@ namespace PresentationLayer.UCs {
             }
 
             ParentForm?.Close();
+        }
+
+        private void SetImageLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            using (OpenFileDialog dialog = new OpenFileDialog()) {
+
+                dialog.Title = "Select Profile Image";
+
+                dialog.Filter =
+                    "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                ProfileImagePictureBox.ImageLocation = dialog.FileName;
+            }
+        }
+
+        private void RemoveImageLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            ProfileImagePictureBox.ImageLocation = string.Empty;
         }
     }
 }

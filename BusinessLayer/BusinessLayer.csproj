@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Country.cs" />
     <Compile Include="Person.cs" />
+    <Compile Include="ProfileImageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
