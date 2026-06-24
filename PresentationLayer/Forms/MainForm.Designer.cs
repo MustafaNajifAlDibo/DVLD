@@ -70,6 +70,7 @@
             this.UsersToolStripMenuItem.Name = "UsersToolStripMenuItem";
             this.UsersToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.UsersToolStripMenuItem.Text = "Users";
+            this.UsersToolStripMenuItem.Click += new System.EventHandler(this.UsersToolStripMenuItem_Click);
             // 
             // AccountSettingsToolStripMenuItem
             // 

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace PresentationLayer.Forms {
     public partial class ManagePeopleForm : Form {
@@ -22,6 +21,7 @@ namespace PresentationLayer.Forms {
         private async void RetrieveAllPeopleInDatatGridView() {
 
             _allPeople = await Person.GetAllPeopleAsync();
+            PerformFilter(FilterTextBox.Text.Trim());
             PeopleDataGridView.DataSource = _allPeople;
 
             PeopleDataGridView.Columns["Gender"].Visible = false;
@@ -40,6 +40,7 @@ namespace PresentationLayer.Forms {
         private void AddPersonButton_Click(object sender, EventArgs e) {
             AddUpdatePersonForm addPersonForm = new AddUpdatePersonForm(-1);
             addPersonForm.ShowDialog();
+            FilterTextBox.Text = string.Empty;
             RetrieveAllPeopleInDatatGridView();
         }
 
@@ -111,6 +112,11 @@ namespace PresentationLayer.Forms {
                 return;
             }
 
+            PerformFilter(text);
+        }
+
+        private void PerformFilter(string text) {
+
             switch (filterText) {
 
                 case "First Name":
@@ -131,7 +137,7 @@ namespace PresentationLayer.Forms {
                     break;
                 case "PersonID":
                     PeopleDataGridView.DataSource =
-                _allPeople .Where(p => p.PersonID.ToString().Contains(text)).ToList();
+                _allPeople.Where(p => p.PersonID.ToString().Contains(text)).ToList();
                     break;
                 case "Email":
                     PeopleDataGridView.DataSource =

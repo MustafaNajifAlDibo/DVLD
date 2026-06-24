@@ -50,6 +50,7 @@
     <Compile Include="Person.cs" />
     <Compile Include="ProfileImageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">

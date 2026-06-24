@@ -18,5 +18,17 @@ namespace PresentationLayer.Forms {
                 managePeopleForm.Focus();
             }
         }
+
+        ManageUsersForme manageUsersForm;
+        private void UsersToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (manageUsersForm == null || manageUsersForm.IsDisposed) {
+                manageUsersForm = new ManageUsersForme {
+                    MdiParent = this
+                };
+                manageUsersForm.Show();
+            } else {
+                manageUsersForm.Focus();
+            }
+        }
     }
 }

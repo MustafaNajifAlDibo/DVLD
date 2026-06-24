@@ -62,6 +62,7 @@
             this.PeopleDataGridView.AllowUserToAddRows = false;
             this.PeopleDataGridView.AllowUserToDeleteRows = false;
             this.PeopleDataGridView.AllowUserToResizeRows = false;
+            this.PeopleDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.PeopleDataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.PeopleDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PeopleDataGridView.ContextMenuStrip = this.contextMenuStrip;
