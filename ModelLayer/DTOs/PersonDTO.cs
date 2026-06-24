@@ -2,7 +2,7 @@
 
 namespace ModelLayer.DTOs {
     public class PersonDTO {
-        public int PersonId { get; set; }
+        public int PersonID { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string ThirdName { get; set; }
@@ -14,7 +14,8 @@ namespace ModelLayer.DTOs {
         public string NationalNo { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public int NationalityCountryId { get; set; }
+        public int NationalityCountryID { get; set; }
+        public string NationalityName { get; set; }
         public string ImagePath { get; set; } = string.Empty;
     }
 }

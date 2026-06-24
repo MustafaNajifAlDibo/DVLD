@@ -32,5 +32,32 @@ namespace DataLayer {
             }
             return countries;
         }
+
+        public static async Task<string> GetCountryNameByIDAsync(int CountryID) {
+            string CountryName = null;
+            using (SqlConnection connection =
+            new SqlConnection(DataAccessSettings.ConnectionString)) {
+                const string query = @"
+                SELECT CountryName FROM Countries
+                    WHERE CountryID = @CountryID";
+
+                using (SqlCommand command =
+                    new SqlCommand(query, connection)) {
+                    command.Parameters.AddWithValue("@CountryID", CountryID);
+                    connection.Open();
+
+
+                    using (SqlDataReader reader =
+                       await command.ExecuteReaderAsync()) {
+                        if (await reader.ReadAsync()) {
+
+                            return CountryName = reader.GetString(reader.GetOrdinal("CountryName"));
+                            
+                        }
+                    }
+                }
+                return CountryName;
+            }
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace DataLayer {
                        await command.ExecuteReaderAsync()) {
                         while (await reader.ReadAsync()) {
                             people.Add(new PersonDTO {
-                                PersonId = reader.GetInt32(reader.GetOrdinal("PersonID")),
+                                PersonID = reader.GetInt32(reader.GetOrdinal("PersonID")),
 
                                 FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
 
@@ -49,8 +49,11 @@ namespace DataLayer {
                                 Email = reader.IsDBNull(reader.GetOrdinal("Email"))
                                     ? string.Empty: reader.GetString(reader.GetOrdinal("Email")),
 
-                                NationalityCountryId = reader.GetInt32(
+                                NationalityCountryID = reader.GetInt32(
                                     reader.GetOrdinal("NationalityCountryID")),
+
+                                NationalityName = await CountryData.GetCountryNameByIDAsync(reader.GetInt32(
+                                    reader.GetOrdinal("NationalityCountryID"))),
 
                                 ImagePath = reader.IsDBNull( reader.GetOrdinal("ImagePath"))
                                     ? string.Empty: reader.GetString(reader.GetOrdinal("ImagePath"))
@@ -81,7 +84,7 @@ namespace DataLayer {
                        await command.ExecuteReaderAsync()) {
                         if (await reader.ReadAsync()) {
                             personDTO = new PersonDTO {
-                                PersonId = reader.GetInt32(reader.GetOrdinal("PersonID")),
+                                PersonID = reader.GetInt32(reader.GetOrdinal("PersonID")),
 
                                 FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
 
@@ -106,7 +109,7 @@ namespace DataLayer {
                                 Email = reader.IsDBNull(reader.GetOrdinal("Email"))
                                     ? string.Empty : reader.GetString(reader.GetOrdinal("Email")),
 
-                                NationalityCountryId = reader.GetInt32(
+                                NationalityCountryID = reader.GetInt32(
                                     reader.GetOrdinal("NationalityCountryID")),
 
                                 ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath"))
@@ -149,7 +152,7 @@ namespace DataLayer {
                         ? (object)DBNull.Value : personDTO.Phone);
                     command.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(personDTO.Email)
                         ? (object)DBNull.Value : personDTO.Email);
-                    command.Parameters.AddWithValue("@NationalityCountryID", personDTO.NationalityCountryId);
+                    command.Parameters.AddWithValue("@NationalityCountryID", personDTO.NationalityCountryID);
                     command.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(personDTO.ImagePath)
                         ? (object)DBNull.Value : personDTO.ImagePath);
 
@@ -178,7 +181,7 @@ namespace DataLayer {
                     ImagePath = @ImagePath WHERE PersonID = @PersonID";
                 using (SqlCommand command =
                     new SqlCommand(query, connection)) {
-                    command.Parameters.AddWithValue("@PersonID", personDTO.PersonId);
+                    command.Parameters.AddWithValue("@PersonID", personDTO.PersonID);
                     command.Parameters.AddWithValue("@FirstName", personDTO.FirstName);
                     command.Parameters.AddWithValue("@SecondName", personDTO.SecondName);
                     command.Parameters.AddWithValue("@ThirdName", personDTO.ThirdName);
@@ -192,7 +195,7 @@ namespace DataLayer {
                         ? (object)DBNull.Value : personDTO.Phone);
                     command.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(personDTO.Email)
                         ? (object)DBNull.Value : personDTO.Email);
-                    command.Parameters.AddWithValue("@NationalityCountryID", personDTO.NationalityCountryId);
+                    command.Parameters.AddWithValue("@NationalityCountryID", personDTO.NationalityCountryID);
                     command.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(personDTO.ImagePath)
                         ? (object)DBNull.Value : personDTO.ImagePath);
 

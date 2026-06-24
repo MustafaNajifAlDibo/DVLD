@@ -14,7 +14,7 @@ namespace BusinessLayer {
 
         public Person(){
                 PersonDTO = new PersonDTO {
-                PersonId = -1,
+                PersonID = -1,
                 FirstName = string.Empty,
                 SecondName = string.Empty,
                 ThirdName = string.Empty,
@@ -25,7 +25,7 @@ namespace BusinessLayer {
                 NationalNo = string.Empty,
                 Phone = string.Empty,
                 Email = string.Empty,
-                NationalityCountryId = -1,
+                NationalityCountryID = -1,
                 ImagePath = string.Empty
             };
             Mode = enMode.AddNew;
@@ -67,8 +67,8 @@ namespace BusinessLayer {
         }
 
         private async Task<bool> _AddNewPerson() {
-            this.PersonDTO.PersonId = await PersonData.AddNewPersonAsync(PersonDTO);
-            return this.PersonDTO.PersonId != -1;
+            this.PersonDTO.PersonID = await PersonData.AddNewPersonAsync(PersonDTO);
+            return this.PersonDTO.PersonID != -1;
         }
 
         private async Task<bool> _UpdatePerson() {

@@ -23,7 +23,7 @@ namespace PresentationLayer.UCs {
             PersonIDLabel.Text = "N/A";
 
             DateOfBirthDateTimePicker.MaxDate = DateTime.Today.AddYears(-18);
-            CountryComboBox.DataSource = await GetCountriesNameListAsync();
+            CountryComboBox.DataSource = await Country.GetCountriesNameListAsync();
             CountryComboBox.SelectedIndex = defultCountryIndex;
             FirstNameTextBox.Text = string.Empty;
             SecondNameTextBox.Text = string.Empty;
@@ -57,20 +57,12 @@ namespace PresentationLayer.UCs {
                 FemaleRadioButton.Checked = true;
             }
 
-            CountryComboBox.DataSource = await GetCountriesNameListAsync();
-            CountryComboBox.SelectedIndex = personDto.NationalityCountryId - 1;
+            CountryComboBox.DataSource = await Country.GetCountriesNameListAsync();
+            CountryComboBox.SelectedIndex = personDto.NationalityCountryID - 1;
             _selectedImagePath = personDto.ImagePath;
             ProfileImagePictureBox.ImageLocation = _selectedImagePath;
         }
 
-        private async Task<List<string>> GetCountriesNameListAsync() {
-            List<CountryDTO> countries = await Country.GetAllCountriesAsync();
-            List<string> countryNames = new List<string>();
-            foreach (var country in countries) {
-                countryNames.Add(country.CountryName);
-            }
-            return countryNames;
-        }
 
         private void CloseButton_Click(object sender, EventArgs e) {
             if (MessageBox.Show(
@@ -84,17 +76,9 @@ namespace PresentationLayer.UCs {
 
         private async void SaveButton_Click(object sender, EventArgs e) {
 
-            if (ProfileImagePictureBox.ImageLocation == string.Empty) {
-                ProfileImageManager.DeleteImage(_selectedImagePath);
-                _selectedImagePath = string.Empty;
-            } else {
-                _selectedImagePath = ProfileImageManager.ReplaceImage(
-                    _selectedImagePath, ProfileImagePictureBox.ImageLocation);
-            }
-
             Person person = new Person {
                 PersonDTO = new PersonDTO {
-                    PersonId = _personID,
+                    PersonID = _personID,
                     FirstName = FirstNameTextBox.Text,
                     SecondName = SecondNameTextBox.Text,
                     ThirdName = ThirdNameTextBox.Text,
@@ -105,8 +89,8 @@ namespace PresentationLayer.UCs {
                     NationalNo = NationalNoTextBox.Text,
                     Phone = PhoneTextBox.Text,
                     Email = EmailTextBox.Text,
-                    NationalityCountryId = CountryComboBox.SelectedIndex + 1,
-                    ImagePath = _selectedImagePath
+                    NationalityCountryID = CountryComboBox.SelectedIndex + 1
+                    
                 }
             };
 
@@ -120,6 +104,17 @@ namespace PresentationLayer.UCs {
                 MessageBox.Show($"{result.Errors[0].ErrorMessage}");
                 return;
             }
+
+            // Set person Image
+            if (ProfileImagePictureBox.ImageLocation == string.Empty) {
+                ProfileImageManager.DeleteImage(_selectedImagePath);
+                _selectedImagePath = string.Empty;
+            } else if (_selectedImagePath != ProfileImagePictureBox.ImageLocation) {
+                _selectedImagePath = ProfileImageManager.ReplaceImage(
+                    _selectedImagePath, ProfileImagePictureBox.ImageLocation);
+            }
+
+            person.PersonDTO.ImagePath = _selectedImagePath;
 
             if (_personID == -1) {
                 person.Mode = Person.enMode.AddNew;

@@ -22,7 +22,7 @@ namespace DataLayer.InputValidation {
                 .NotEmpty()
                 .WithMessage("National Number is required.")
                 .Must((person, nationalNo) =>
-                    !ExistsNationalNo(nationalNo, person.PersonId))
+                    !ExistsNationalNo(nationalNo, person.PersonID))
                 .WithMessage("National Number already exists.");
 
             RuleFor(x => x.Phone)
@@ -33,14 +33,14 @@ namespace DataLayer.InputValidation {
                 .EmailAddress()
                 .When(x => !string.IsNullOrWhiteSpace(x.Email))
                 .Must((person, email) =>
-                    !ExistsEmail(email, person.PersonId))
+                    !ExistsEmail(email, person.PersonID))
                 .WithMessage("Email already exists.");
 
             RuleFor(x => x.DateOfBirth)
                 .LessThanOrEqualTo(DateTime.Today.AddYears(-18))
                 .WithMessage("Person must be at least 18 years old.");
 
-            RuleFor(x => x.NationalityCountryId)
+            RuleFor(x => x.NationalityCountryID)
                 .GreaterThan(0);
 
             RuleFor(x => x.Address)
